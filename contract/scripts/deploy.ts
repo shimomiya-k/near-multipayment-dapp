@@ -1,9 +1,9 @@
 require("dotenv").config();
-const hre = require("hardhat");
+import hre from "hardhat";
 
 const provider = hre.ethers.provider;
 const deployerWallet = new hre.ethers.Wallet(
-  process.env.AURORA_PRIVATE_KEY,
+  process.env.AURORA_PRIVATE_KEY!,
   provider
 );
 
@@ -41,54 +41,54 @@ async function main() {
   await SwapContract.deployed();
   console.log("Swap Contract is deployed to:", SwapContract.address);
 
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  await new Promise((resolve) => setTimeout(resolve, 2000));
 
   const [deployer] = await hre.ethers.getSigners();
   console.log(`deployer address is ${deployer.address}`);
 
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  await new Promise((resolve) => setTimeout(resolve, 2000));
 
   const DaiToken = await daiToken.deploy(SwapContract.address);
   await DaiToken.deployed();
   console.log("DaiToken is deployed to:", DaiToken.address);
 
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  await new Promise((resolve) => setTimeout(resolve, 2000));
 
   const EthToken = await ethToken.deploy(SwapContract.address);
   await EthToken.deployed();
   console.log("EthToken is deployed to:", EthToken.address);
 
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  await new Promise((resolve) => setTimeout(resolve, 2000));
 
   const AoaToken = await aoaToken.deploy(SwapContract.address);
   await AoaToken.deployed();
   console.log("AoaToken is deployed to:", AoaToken.address);
 
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  await new Promise((resolve) => setTimeout(resolve, 2000));
 
   const ShibToken = await shibToken.deploy(SwapContract.address);
   await ShibToken.deployed();
   console.log("ShibToken is deployed to:", ShibToken.address);
 
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  await new Promise((resolve) => setTimeout(resolve, 2000));
 
   const SolToken = await solToken.deploy(SwapContract.address);
   await SolToken.deployed();
   console.log("SolToken is deployed to:", SolToken.address);
 
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  await new Promise((resolve) => setTimeout(resolve, 2000));
 
   const UsdtToken = await usdtToken.deploy(SwapContract.address);
   await UsdtToken.deployed();
   console.log("UsdtToken is deployed to:", UsdtToken.address);
 
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  await new Promise((resolve) => setTimeout(resolve, 2000));
 
   const UniToken = await uniToken.deploy(SwapContract.address);
   await UniToken.deployed();
   console.log("UniToken is deployed to:", UniToken.address);
 
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  await new Promise((resolve) => setTimeout(resolve, 2000));
 
   const MaticToken = await maticToken.deploy(SwapContract.address);
   await MaticToken.deployed();
