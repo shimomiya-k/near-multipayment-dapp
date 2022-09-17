@@ -1,1 +1,3 @@
 frontend/.fvm/flutter_sdk
+frontend/.env
+.DS_Store
