@@ -15,60 +15,60 @@ import 'package:http/http.dart' as http;
 class ContractModel extends ChangeNotifier {
   List<Token> tokenList = [
     Token(
-      address: dotenv.env["AOA_CONTRACT_ADDRESS"]!,
-      contractName: dotenv.env["AOA_CONTRACT_NAME"]!,
-      name: "Aurora",
-      symbol: "AOA",
-      imagePath: "assets/aurora-aoa-logo.png",
+      address: dotenv.env['AOA_CONTRACT_ADDRESS']!,
+      contractName: dotenv.env['AOA_CONTRACT_NAME']!,
+      name: 'Aurora',
+      symbol: 'AOA',
+      imagePath: 'assets/aurora-aoa-logo.png',
     ),
     Token(
-        address: dotenv.env["SHIB_CONTRACT_ADDRESS"]!,
-        contractName: dotenv.env["SHIB_CONTRACT_NAME"]!,
-        name: "Shibainu",
-        symbol: "SHIB",
-        imagePath: "assets/shib-logo.png"),
+        address: dotenv.env['SHIB_CONTRACT_ADDRESS']!,
+        contractName: dotenv.env['SHIB_CONTRACT_NAME']!,
+        name: 'Shibainu',
+        symbol: 'SHIB',
+        imagePath: 'assets/shib-logo.png'),
     Token(
-        address: dotenv.env["ETH_CONTRACT_ADDRESS"]!,
-        contractName: dotenv.env["ETH_CONTRACT_NAME"]!,
-        name: "Ethereum",
-        symbol: "ETH",
-        imagePath: "assets/ethereum-eth-logo.png"),
+        address: dotenv.env['ETH_CONTRACT_ADDRESS']!,
+        contractName: dotenv.env['ETH_CONTRACT_NAME']!,
+        name: 'Ethereum',
+        symbol: 'ETH',
+        imagePath: 'assets/ethereum-eth-logo.png'),
     Token(
-        address: dotenv.env["SOL_CONTRACT_ADDRESS"]!,
-        contractName: dotenv.env["SOL_CONTRACT_NAME"]!,
-        name: "Solana",
-        symbol: "SOL",
-        imagePath: "assets/solana-sol-logo.png"),
+        address: dotenv.env['SOL_CONTRACT_ADDRESS']!,
+        contractName: dotenv.env['SOL_CONTRACT_NAME']!,
+        name: 'Solana',
+        symbol: 'SOL',
+        imagePath: 'assets/solana-sol-logo.png'),
     Token(
-        address: dotenv.env["USDT_CONTRACT_ADDRESS"]!,
-        contractName: dotenv.env["USDT_CONTRACT_NAME"]!,
-        name: "Tether",
-        symbol: "USDT",
-        imagePath: "assets/tether-usdt-logo.png"),
+        address: dotenv.env['USDT_CONTRACT_ADDRESS']!,
+        contractName: dotenv.env['USDT_CONTRACT_NAME']!,
+        name: 'Tether',
+        symbol: 'USDT',
+        imagePath: 'assets/tether-usdt-logo.png'),
     Token(
-        address: dotenv.env["UNI_CONTRACT_ADDRESS"]!,
-        contractName: dotenv.env["UNI_CONTRACT_NAME"]!,
-        name: "Uniswap",
-        symbol: "UNI",
-        imagePath: "assets/uniswap-uni-logo.png"),
+        address: dotenv.env['UNI_CONTRACT_ADDRESS']!,
+        contractName: dotenv.env['UNI_CONTRACT_NAME']!,
+        name: 'Uniswap',
+        symbol: 'UNI',
+        imagePath: 'assets/uniswap-uni-logo.png'),
     Token(
-        address: dotenv.env["MATIC_CONTRACT_ADDRESS"]!,
-        contractName: dotenv.env["MATIC_CONTRACT_NAME"]!,
-        name: "Polygon",
-        symbol: "MATIC",
-        imagePath: "assets/polygon-matic-logo.png"),
+        address: dotenv.env['MATIC_CONTRACT_ADDRESS']!,
+        contractName: dotenv.env['MATIC_CONTRACT_NAME']!,
+        name: 'Polygon',
+        symbol: 'MATIC',
+        imagePath: 'assets/polygon-matic-logo.png'),
   ];
 
-  final SWAP_CONTRACT_ADDRESS = dotenv.env["SWAP_CONTRACT_ADDRESS"];
-  final SWAP_CONTRACT_NAME = dotenv.env["SWAP_CONTRACT_NAME"];
+  final SWAP_CONTRACT_ADDRESS = dotenv.env['SWAP_CONTRACT_ADDRESS'];
+  final SWAP_CONTRACT_NAME = dotenv.env['SWAP_CONTRACT_NAME'];
 
   late Web3Client auroraClient;
   int ethBalance = 0;
   bool _isLoading = true;
-  final String _rpcUrl = "https://testnet.aurora.dev";
-  final String _wsUrl = "wss://testnet.aurora.dev";
+  final String _rpcUrl = 'https://testnet.aurora.dev';
+  final String _wsUrl = 'wss://testnet.aurora.dev';
   final String _deepLink =
-      "wc:00e46b69-d0cc-4b3e-b6a2-cee442f97188@1?bridge=https%3A%2F%2Fbridge.walletconnect.org&key=91303dedf64285cbbaf9120f6e9d160a5c8aa3deb67017a3874cd272323f48ae";
+      'wc:00e46b69-d0cc-4b3e-b6a2-cee442f97188@1?bridge=https%3A%2F%2Fbridge.walletconnect.org&key=91303dedf64285cbbaf9120f6e9d160a5c8aa3deb67017a3874cd272323f48ae';
 
   Web3Client? _client;
   String? _abiCode;
@@ -89,7 +89,7 @@ class ContractModel extends ChangeNotifier {
   }
 
   Future<void> init() async {
-    final INFURA_KEY_TEST = dotenv.env["INFURA_KEY_TEST"];
+    final INFURA_KEY_TEST = dotenv.env['INFURA_KEY_TEST'];
     http.Client httpClient = http.Client();
     auroraClient = Web3Client(INFURA_KEY_TEST!, httpClient);
     _client = Web3Client(_rpcUrl, Client(), socketConnector: () {
@@ -100,14 +100,14 @@ class ContractModel extends ChangeNotifier {
   Future<void> getAbi(String contractName) async {
     String abiStringFile = await rootBundle.loadString('smart_contracts/$contractName.json');
     var jsonAbi = jsonDecode(abiStringFile);
-    _abiCode = jsonEncode(jsonAbi["abi"]);
-    _contractAddress = EthereumAddress.fromHex(jsonAbi["networks"]["1313161555"]["address"]);
+    _abiCode = jsonEncode(jsonAbi['abi']);
+    _contractAddress = EthereumAddress.fromHex(jsonAbi['networks']['1313161555']['address']);
   }
 
   Future<DeployedContract> getContract(String contractName, String contractAddress) async {
     String abi = await rootBundle.loadString('smart_contracts/$contractName.json');
     DeployedContract contract = DeployedContract(
-      ContractAbi.fromJson(jsonEncode(jsonDecode(abi)["abi"]), contractName),
+      ContractAbi.fromJson(jsonEncode(jsonDecode(abi)['abi']), contractName),
       EthereumAddress.fromHex(contractAddress),
     );
     return contract;
@@ -140,13 +140,13 @@ class ContractModel extends ChangeNotifier {
       final tra =
           _client!.sendTransaction(_connection!.credentials, transaction, chainId: 1313161555);
       if (!await launchUrlString(_deepLink)) {
-        throw "Could not launch $_deepLink";
+        throw 'Could not launch $_deepLink';
       }
       await tra;
       notifyListeners();
     } else {
       if (kDebugMode) {
-        print("There is no connection to wallet or no client");
+        print('There is no connection to wallet or no client');
       }
     }
   }
@@ -166,7 +166,7 @@ class ContractModel extends ChangeNotifier {
   Future<String> getEthBalance(String tokenContractName) async {
     List<dynamic> result =
         await query(SWAP_CONTRACT_NAME!, SWAP_CONTRACT_ADDRESS!, 'calculateValue', [
-      EthereumAddress.fromHex(dotenv.env["ETH_CONTRACT_ADDRESS"]!),
+      EthereumAddress.fromHex(dotenv.env['ETH_CONTRACT_ADDRESS']!),
       EthereumAddress.fromHex(tokenContractName)
     ]);
     return result[0].toString();
@@ -190,7 +190,7 @@ class ContractModel extends ChangeNotifier {
     await sendTransaction(
       sendTokenContractName,
       sendTokenAddress,
-      "approve",
+      'approve',
       [
         EthereumAddress.fromHex(dotenv.env['SWAP_CONTRACT_ADDRESS']!),
         BigInt.from(amount),
@@ -199,7 +199,7 @@ class ContractModel extends ChangeNotifier {
     await sendTransaction(
       dotenv.env['SWAP_CONTRACT_NAME']!,
       dotenv.env['SWAP_CONTRACT_ADDRESS']!,
-      "swap",
+      'swap',
       [
         // measureToken is got rid of
         EthereumAddress.fromHex(sendTokenAddress),
